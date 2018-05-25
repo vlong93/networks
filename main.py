@@ -1,39 +1,18 @@
-import socket   
-import sys 
-import urllib.request
-import urllib.parse
-
-try:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-except socket.error:
-    print('Failed to create socket')
-    sys.exit()
-     
-print('Socket Created')
+import requests
  
-host = 'www.google.com';
-port = 80;
+URL = "http://maps.googleapis.com/maps/api/geocode/json"
  
-try:
-    remote_ip = socket.gethostbyname(host)
-except socket.gaierror:
-    print('Hostname could not be resolved. Exiting')
-    sys.exit()
+location = "cal poly pomona"
  
-s.connect((remote_ip , port))
+PARAMS = {'address':location}
  
-print('Socket Connected to ' + host + ' on ip ' + remote_ip)
+r = requests.get(url = URL, params = PARAMS)
  
-message = "GET / HTTP/1.1\r\n\r\n".encode()
+data = r.json()
  
-try :
-    s.sendall(message)
-except socket.error:
-    print('Send failed')
-    sys.exit()
+latitude = data['results'][0]['geometry']['location']['lat']
+longitude = data['results'][0]['geometry']['location']['lng']
+formatted_address = data['results'][0]['formatted_address']
  
-print('Message send successfully')
-
-reply = s.recv(4096)
-
-print(reply)
+print("Latitude: %s\nLongitude: %s\nAddress: %s"
+      %(latitude, longitude,formatted_address))
