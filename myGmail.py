@@ -5,10 +5,11 @@ server.ehlo()
 server.starttls()
 
 #Next, log in to the server
-server.login("your gmail address", "your password")
+server.login("cs380project1@gmail.com", "HelloWorld!")
 
 #Send the mail
-msg = "Hello!Here is Jinjing!" 
-server.sendmail("from email address", "destination email address", msg)
+msg = "This is a test message." 
+recipient = input("Enter the e-mail of the recipient: ")
+server.sendmail("cs380project1@gmail.com", recipient, msg)
 
-server.close()	
+server.close()
